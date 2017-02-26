@@ -61,6 +61,10 @@ def calculate_cost(items, max_weight, min_value):
   values = [item[1] for item in items]
   item_names = [item[0] for item in items]
 
+  if all([w > max_weight for w in weights]):
+    return {"error": 'All the item weights are more than the expected weight: {}'.format(float(max_weight)/float(10**PRICE_PRECISION)),
+            "total_cost": ''}
+
   # An array, main_arr created to find the optimal value for each of the weight upto max_weight
   # Another array choice_arr is created to note the choice made at each step to remember the items chosen.
 
@@ -152,7 +156,6 @@ def get_costs(instances, hours, cpus, price):
     raise Exception('Either cpus or price needs to be specified')
 
   for region_name, region_data in instances.iteritems():
-    print 'Processing region {}'.format(region_name)
     items = []
     for server_name, server_price in region_data.iteritems():
 
